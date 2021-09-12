@@ -15,9 +15,10 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping("/add")
-    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+    @ResponseBody
+    public Student addStudent(@RequestBody Student student) {
         studentService.addStudent(student);
-        return null;
+        return student;
     }
 
     @GetMapping("/get")
@@ -28,10 +29,10 @@ public class StudentController {
     }
 
     @PostMapping("/update")
-    public void updateStudent(@RequestBody Student student) {
-        studentService.updateStudentName(student);
+    public Student updateStudent(@RequestBody Student student) {
+       Student newStudent =  studentService.updateStudentName(student);
+       return newStudent;
     }
-
     @PostMapping("/delete")
     public void deleteStudent(@RequestBody Student student) {
         studentService.deleteStudent(student);

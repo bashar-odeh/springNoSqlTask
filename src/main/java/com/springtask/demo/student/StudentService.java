@@ -1,6 +1,8 @@
 package com.springtask.demo.student;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,11 +13,12 @@ public class StudentService {
     private final StudentRepository studentRepository;
 
     public void addStudent(Student student) {
-        if (student != null) {
+        if (student.getEmail() != null) {
             studentRepository.insert(student);
             return;
         }
-        throw new IllegalArgumentException("No Data");
+        throw new IllegalArgumentException("Missing Data");
+
     }
 
     public Student getStudent(String email) {
@@ -26,7 +29,7 @@ public class StudentService {
         return null;
     }
 
-    public void updateStudentName(Student student) {
+    public Student updateStudentName(Student student) {
         Optional<Student> optionalStudent = studentRepository.findByEmail(student.getEmail());
         optionalStudent.ifPresentOrElse(student1 -> {
             student1.setFirstName(student.getFirstName());
@@ -35,10 +38,11 @@ public class StudentService {
         }, () -> {
             throw new IllegalArgumentException("Student Not Found");
         });
-
+        return student;
     }
+
     public void deleteStudent(Student student) {
-    studentRepository.deleteStudentByEmail(student.getEmail());
+        studentRepository.deleteStudentByEmail(student.getEmail());
 
     }
 }
