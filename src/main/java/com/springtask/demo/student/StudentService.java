@@ -42,7 +42,11 @@ public class StudentService {
     }
 
     public void deleteStudent(Student student) {
-        studentRepository.deleteStudentByEmail(student.getEmail());
-
+        Optional<Student> optionalStudent = studentRepository.findByEmail(student.getEmail());
+        optionalStudent.ifPresentOrElse(student1 -> {
+            studentRepository.deleteStudentByEmail(student.getEmail());
+        }, () -> {
+            throw new IllegalArgumentException("Student Not Found");
+        });
     }
 }
