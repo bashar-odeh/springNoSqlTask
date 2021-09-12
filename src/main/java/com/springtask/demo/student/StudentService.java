@@ -1,8 +1,6 @@
 package com.springtask.demo.student;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,7 +16,6 @@ public class StudentService {
             return;
         }
         throw new IllegalArgumentException("Missing Data");
-
     }
 
     public Student getStudent(String email) {
@@ -26,7 +23,7 @@ public class StudentService {
         if (opt.isPresent()) {
             return opt.get();
         }
-        return null;
+        throw new IllegalArgumentException("Student Not Found");
     }
 
     public Student updateStudentName(Student student) {
